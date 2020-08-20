@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GiveMeDateApp.Views.ItemsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="clr-namespace:GiveMeDateApp"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="BrowseItemsPage"
+    Title="{Binding Title}"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+
+    <Grid Margin="0,-90">
+        <magic:GradientView>
+            <magic:CssGradientSource>
+                <x:String>
+                    <![CDATA[
+               linear-gradient(45deg, rgba(38, 21, 12, 0.36) 0%, rgba(38, 21, 12, 0.36) 2%, rgba(145, 27, 35, 0.36) 2%, rgba(145, 27, 35, 0.36) 5%, rgba(65, 22, 18, 0.36) 5%, rgba(65, 22, 18, 0.36) 39%, rgba(11, 19, 6, 0.36) 39%, rgba(11, 19, 6, 0.36) 41%, rgba(172, 28, 41, 0.36) 41%, rgba(172, 28, 41, 0.36) 69%, rgba(118, 25, 29, 0.36) 69%, rgba(118, 25, 29, 0.36) 79%, rgba(199, 30, 47, 0.36) 79%, rgba(199, 30, 47, 0.36) 87%, rgba(92, 24, 24, 0.36) 87%, rgba(92, 24, 24, 0.36) 100%), linear-gradient(45deg, rgba(86, 93, 205, 0.34) 0%, rgba(86, 93, 205, 0.34) 12.5%, rgba(158, 71, 211, 0.34) 12.5%, rgba(158, 71, 211, 0.34) 25%, rgba(110, 86, 207, 0.34) 25%, rgba(110, 86, 207, 0.34) 37.5%, rgba(254, 41, 220, 0.34) 37.5%, rgba(254, 41, 220, 0.34) 50%, rgba(230, 48, 218, 0.34) 50%, rgba(230, 48, 218, 0.34) 62.5%, rgba(182, 63, 214, 0.34) 62.5%, rgba(182, 63, 214, 0.34) 75%, rgba(206, 56, 216, 0.34) 75%, rgba(206, 56, 216, 0.34) 87.5%, rgba(134, 78, 209, 0.34) 87.5%, rgba(134, 78, 209, 0.34) 100%), linear-gradient(177deg, rgb(9, 74, 160), rgb(248, 53, 57))
+            ]]>
+                </x:String>
+            </magic:CssGradientSource>
+        </magic:GradientView>
+
+        <!-- <Button Command="{Binding FillPercentageCommand}"  -->
+        <!--         BackgroundColor="Transparent" -->
+        <!--         Text="{Binding FillPercentage, StringFormat='Percentage of readiness: {0}'}" /> -->
+
+        <app:MonthYearPickerView
+            BackgroundColor="Transparent"
+            Date="{Binding Date}"
+            MinDate="01.01.2019"
+            MaxDate="01.01.2021"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="Center" />
+
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,10 @@
+/.idea/.idea.GiveMeDateApp/
+/.vs/GiveMeDateApp/
+/GiveMeDateApp/GiveMeDateApp/obj/
+/GiveMeDateApp/GiveMeDateApp/bin/Debug/netstandard2.0/
+/GiveMeDateApp/GiveMeDateApp.iOS/obj/
+/GiveMeDateApp/GiveMeDateApp.iOS/bin/iPhoneSimulator/Debug/
+/GiveMeDateApp/GiveMeDateApp.iOS/GiveMeDateApp.iOS.csproj.user
+/GiveMeDateApp/GiveMeDateApp.Android/obj/
+/GiveMeDateApp/GiveMeDateApp.Android/bin/Debug/
+/GiveMeDateApp/GiveMeDateApp.Android/GiveMeDateApp.Android.csproj.user
