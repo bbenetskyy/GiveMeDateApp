@@ -4,6 +4,7 @@ using Android.Views;
 using Android.Widget;
 using System;
 using System.Linq;
+using Debug = System.Diagnostics.Debug;
 
 namespace GiveMeDateApp.Droid
 {
@@ -118,35 +119,43 @@ namespace GiveMeDateApp.Droid
 
         private void SetMaxMinDate(DateTime? maxDate, DateTime? minDate)
         {
-            if (maxDate.HasValue)
+            try
             {
-                var maxYear = maxDate.Value.Year;
-                var maxMonth = maxDate.Value.Month;
+                if (maxDate.HasValue)
+                {
+                    var maxYear = maxDate.Value.Year;
+                    var maxMonth = maxDate.Value.Month;
 
-                if (_yearPicker.Value == maxYear)
-                {
-                    _monthPicker.MaxValue = maxMonth;
+                    if (_yearPicker.Value == maxYear)
+                    {
+                        _monthPicker.MaxValue = maxMonth;
+                    }
+                    else if (_monthPicker.MaxValue != MaxNumberOfMonths)
+                    {
+                        _monthPicker.MaxValue = MaxNumberOfMonths;
+                    }
+                    _yearPicker.MaxValue = maxYear;
                 }
-                else if (_monthPicker.MaxValue != MaxNumberOfMonths)
+                if (minDate.HasValue)
                 {
-                    _monthPicker.MaxValue = MaxNumberOfMonths;
+                    var minYear = minDate.Value.Year;
+                    var minMonth = minDate.Value.Month;
+
+                    if (_yearPicker.Value == minYear)
+                    {
+                        _monthPicker.MinValue = minMonth;
+                    }
+                    else if (_monthPicker.MinValue != MinNumberOfMonths)
+                    {
+                        _monthPicker.MinValue = MinNumberOfMonths;
+                    }
+                    _yearPicker.MinValue = minYear;
                 }
-                _yearPicker.MaxValue = maxYear;
             }
-            if (minDate.HasValue)
+            catch (Exception e)
             {
-                var minYear = minDate.Value.Year;
-                var minMonth = minDate.Value.Month;
-
-                if (_yearPicker.Value == minYear)
-                {
-                    _monthPicker.MinValue = minMonth;
-                }
-                else if (_monthPicker.MinValue != MinNumberOfMonths)
-                {
-                    _monthPicker.MinValue = MinNumberOfMonths;
-                }
-                _yearPicker.MinValue = minYear;
+                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.StackTrace);
             }
 
             _monthPicker.SetDisplayedValues(GetMonthNames(_monthPicker.MinValue));
