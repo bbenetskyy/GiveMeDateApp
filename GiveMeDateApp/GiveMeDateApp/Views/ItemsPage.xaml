@@ -23,15 +23,11 @@
             </magic:CssGradientSource>
         </magic:GradientView>
 
-        <!-- <Button Command="{Binding FillPercentageCommand}"  -->
-        <!--         BackgroundColor="Transparent" -->
-        <!--         Text="{Binding FillPercentage, StringFormat='Percentage of readiness: {0}'}" /> -->
-
         <app:MonthYearPickerView
             BackgroundColor="Transparent"
             Date="{Binding Date}"
-            MinDate="01.01.2019"
-            MaxDate="01.01.2021"
+            MinDate="6.01.2019"
+            MaxDate="6.01.2021"
             HorizontalOptions="CenterAndExpand"
             VerticalOptions="Center" />
 

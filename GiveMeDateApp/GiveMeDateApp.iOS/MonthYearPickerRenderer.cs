@@ -12,7 +12,7 @@ namespace GiveMeDateApp.iOS
     {
         private DateTime _selectedDate;
         private UITextField _dateLabel;
-        private DateModel _pickerModel;
+        private PickerDateModel _pickerModel;
 
         protected override void OnElementChanged(ElementChangedEventArgs<MonthYearPickerView> e)
         {
@@ -24,12 +24,8 @@ namespace GiveMeDateApp.iOS
             
             SetNativeControl(_dateLabel);
 
-            Control.EditingChanged += ControlOnEditingChanged;  
-            
-            if (Element != null)
-            {
-                Element.PropertyChanged += Element_PropertyChanged;
-            }
+            Control.EditingChanged += ControlOnEditingChanged;
+            Element.PropertyChanged += Element_PropertyChanged;
         }
 
         private void ControlOnEditingChanged(object sender, EventArgs e)
@@ -43,27 +39,23 @@ namespace GiveMeDateApp.iOS
 
         protected override void Dispose(bool disposing)
         {
-            if (Element != null)
-            {
-                Element.PropertyChanged -= Element_PropertyChanged;
-            }
-
+            Element.PropertyChanged -= Element_PropertyChanged;
             base.Dispose(disposing);
         }
 
         private void SetupPicker(DateTime date)
         {
             var datePicker = new UIPickerView();
-            _pickerModel = new DateModel(datePicker, date);
+            _pickerModel = new PickerDateModel(datePicker, date);
             datePicker.ShowSelectionIndicator = true;
             _selectedDate = date;
             _pickerModel.PickerChanged += (sender, e) =>
             {
-                _selectedDate = ((DateModel.PickerChangedEventArgs)e).SelectedValue;
+                _selectedDate = e;
             };
             datePicker.Model = _pickerModel;
-            _pickerModel.MaxDate = FormatDateToMonthYear(Element?.MaxDate);
-            _pickerModel.MinDate = FormatDateToMonthYear(Element?.MinDate);
+            _pickerModel.MaxDate = Element.MaxDate ?? DateTime.MaxValue;
+            _pickerModel.MinDate = Element.MinDate ?? DateTime.MinValue;
 
             var toolbar = new UIToolbar
             {
@@ -75,8 +67,6 @@ namespace GiveMeDateApp.iOS
             var doneButton = new UIBarButtonItem("Done", UIBarButtonItemStyle.Done,
                 (s, e) =>
                 {
-                    if (Element == null) return;
-                    
                     Element.Date = _selectedDate;
                     _dateLabel.Text = $"{Element.Date.Month:D2} | {Element.Date.Year}";
                     _dateLabel.ResignFirstResponder();
@@ -94,15 +84,12 @@ namespace GiveMeDateApp.iOS
         {
             if (e.PropertyName == MonthYearPickerView.MaxDateProperty.PropertyName)
             {
-                _pickerModel.MaxDate = FormatDateToMonthYear(Element.MaxDate);
+                _pickerModel.MaxDate = Element.MaxDate ?? DateTime.MinValue;
             }
             else if (e.PropertyName == MonthYearPickerView.MinDateProperty.PropertyName)
             {
-                _pickerModel.MinDate = FormatDateToMonthYear(Element.MinDate);
+                _pickerModel.MinDate = Element.MinDate ?? DateTime.MaxValue;
             }
         }
-        
-        private DateTime? FormatDateToMonthYear(DateTime? dateTime) => 
-            dateTime.HasValue ? (DateTime?) new DateTime(dateTime.Value.Year, dateTime.Value.Month, 1) : null;
     }
 }
