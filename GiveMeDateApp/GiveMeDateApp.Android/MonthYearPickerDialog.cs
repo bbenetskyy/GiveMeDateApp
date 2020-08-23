@@ -1,4 +1,4 @@
-﻿using Android.App;
+using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -134,8 +134,10 @@ namespace GiveMeDateApp.Droid
                     {
                         _monthPicker.MaxValue = MaxNumberOfMonths;
                     }
+
                     _yearPicker.MaxValue = maxYear;
                 }
+
                 if (minDate.HasValue)
                 {
                     var minYear = minDate.Value.Year;
@@ -149,16 +151,16 @@ namespace GiveMeDateApp.Droid
                     {
                         _monthPicker.MinValue = MinNumberOfMonths;
                     }
+
                     _yearPicker.MinValue = minYear;
                 }
+                _monthPicker.SetDisplayedValues(GetMonthNames(_monthPicker.MinValue));
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 Debug.WriteLine(e.StackTrace);
             }
-
-            _monthPicker.SetDisplayedValues(GetMonthNames(_monthPicker.MinValue));
         }
 
         private string[] GetMonthNames(int start = 1) => 

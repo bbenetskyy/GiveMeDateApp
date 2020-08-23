@@ -8,3 +8,5 @@
 /GiveMeDateApp/GiveMeDateApp.Android/obj/
 /GiveMeDateApp/GiveMeDateApp.Android/bin/Debug/
 /GiveMeDateApp/GiveMeDateApp.Android/GiveMeDateApp.Android.csproj.user
+/GiveMeDateApp/GiveMeDateApp/bin/Release/netstandard2.0
+/GiveMeDateApp/GiveMeDateApp.Android/bin/Release

@@ -26,8 +26,8 @@
         <app:MonthYearPickerView
             BackgroundColor="Transparent"
             Date="{Binding Date}"
-            MinDate="6.01.2019"
-            MaxDate="6.01.2021"
+            MinDate="06.01.2019"
+            MaxDate="06.01.2022"
             HorizontalOptions="CenterAndExpand"
             VerticalOptions="Center" />
 
