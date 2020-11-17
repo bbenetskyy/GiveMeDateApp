@@ -87,7 +87,7 @@ namespace GiveMeDateApp.Droid
 
             tv.SetTextColor(Element.TextColor.ToAndroid());
             tv.TextSize = (float)Element.FontSize;
-            tv.Text = $"{Element.Date.Month:D2} | {Element.Date.Year}";
+            tv.Text = $"{Element.Date.Day:D2} | {Element.Date.Month:D2} | {Element.Date.Year}";
             tv.Gravity = Android.Views.GravityFlags.Center;
             tv.SetBackgroundColor(Element.BackgroundColor.ToAndroid());
 
@@ -114,7 +114,7 @@ namespace GiveMeDateApp.Droid
         private void OnDateTimeChanged(object sender, DateTime e)
         {
             Element.Date = e;
-            Control.Text = $"{Element.Date.Month:D2} | {Element.Date.Year}";
+            Control.Text = $"{Element.Date.Day:D2} | {Element.Date.Month:D2} | {Element.Date.Year}";
             ClearPickerFocus();
         }
 

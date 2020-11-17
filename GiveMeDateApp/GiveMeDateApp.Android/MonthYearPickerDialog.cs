@@ -15,12 +15,13 @@ namespace GiveMeDateApp.Droid
 
         #region Private Fields
 
-        private const int DefaultDay = 1;
+        private const int MinNumberOfDays = 1;
         private const int MinNumberOfMonths = 1;
         private const int MaxNumberOfMonths = 12;
         private const int MinNumberOfYears = 1900;
         private const int MaxNumberOfYears = 2100;
 
+        private NumberPicker _dayPicker;
         private NumberPicker _monthPicker;
         private NumberPicker _yearPicker;
 
@@ -45,9 +46,11 @@ namespace GiveMeDateApp.Droid
             var selectedDate = GetSelectedDate();
 
             var dialog = inflater.Inflate(Resource.Layout.date_picker_dialog, null);
+            _dayPicker = (NumberPicker)dialog.FindViewById(Resource.Id.picker_date);
             _monthPicker = (NumberPicker)dialog.FindViewById(Resource.Id.picker_month);
             _yearPicker = (NumberPicker)dialog.FindViewById(Resource.Id.picker_year);
 
+            InitializeDayPicker(selectedDate);
             InitializeMonthPicker(selectedDate.Month);
             InitializeYearPicker(selectedDate.Year);
             SetMaxMinDate(MaxDate, MinDate);
@@ -55,7 +58,7 @@ namespace GiveMeDateApp.Droid
             builder.SetView(dialog)
                 .SetPositiveButton("Ok", (sender, e) =>
                 {
-                    selectedDate = new DateTime(_yearPicker.Value, _monthPicker.Value, DefaultDay);
+                    selectedDate = new DateTime(_yearPicker.Value, _monthPicker.Value, _dayPicker.Value);
                     OnDateTimeChanged?.Invoke(dialog, selectedDate);
                 })
                 .SetNegativeButton("Cancel", (sender, e) =>
@@ -75,10 +78,16 @@ namespace GiveMeDateApp.Droid
                 _yearPicker = null;
             }
 
-            _monthPicker?.Dispose();
-            _monthPicker = null;
+            if (_monthPicker != null)
+            {
+                _monthPicker.ScrollChange -= MonthPicker_ScrollChange;
+                _monthPicker?.Dispose();
+                _monthPicker = null;
+            }
 
-
+            _dayPicker?.Dispose();
+            _dayPicker = null;
+            
             base.Dispose(disposing);
         }
 
@@ -99,17 +108,35 @@ namespace GiveMeDateApp.Droid
             }
         }
 
+        private void InitializeDayPicker(DateTime selectedDate)
+        {
+            _dayPicker.MinValue = MinNumberOfDays;
+            _dayPicker.MaxValue = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
+            _dayPicker.Value = selectedDate.Day;
+            if (!InfiniteScroll)
+            {
+                _dayPicker.WrapSelectorWheel = false;
+                _dayPicker.DescendantFocusability = DescendantFocusability.BlockDescendants;
+            }
+        }
+        
         private void InitializeMonthPicker(int month)
         {
             _monthPicker.MinValue = MinNumberOfMonths;
             _monthPicker.MaxValue = MaxNumberOfMonths;
             _monthPicker.SetDisplayedValues(GetMonthNames());
             _monthPicker.Value = month;
+            _monthPicker.ScrollChange += MonthPicker_ScrollChange;
             if (!InfiniteScroll)
             {
                 _monthPicker.WrapSelectorWheel = false;
                 _monthPicker.DescendantFocusability = DescendantFocusability.BlockDescendants;
             }
+        }
+        
+        private void MonthPicker_ScrollChange(object sender, View.ScrollChangeEventArgs e)
+        {
+            _dayPicker.MaxValue = DateTime.DaysInMonth(_yearPicker.Value, _monthPicker.Value);
         }
 
         private void YearPicker_ScrollChange(object sender, View.ScrollChangeEventArgs e)
@@ -155,6 +182,7 @@ namespace GiveMeDateApp.Droid
                     _yearPicker.MinValue = minYear;
                 }
                 _monthPicker.SetDisplayedValues(GetMonthNames(_monthPicker.MinValue));
+                _dayPicker.MaxValue = DateTime.DaysInMonth(_yearPicker.Value, _monthPicker.Value);
             }
             catch (Exception e)
             {
